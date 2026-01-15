@@ -1,65 +1,47 @@
-import Image from "next/image";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { CardapioServiceGet } from "@/Infrastructure/Service/CardapioService";
+import Link from "next/link";
 
-export default function Home() {
+import Image from 'next/image'
+
+const result = await CardapioServiceGet()
+
+export default async function Home() {
+
+  const mistura = result.Mistura.split(',').map(x => x.trim())
+  const guarnicao = result.Guarnicao.split(',').map(x => x.trim())
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className='flex justify-center items-center 
+    bg-[url(/images/prato.jpg)] 
+    min-h-dvh h-full w-full'
+    >
+      <Card className="h-auto min-w-[70%] bg-transparent backdrop-blur-2xl ">
+        <CardHeader>
+          <CardTitle className="text-center text-amber-400 text-5xl whitespace-nowrap">
+            Cardápio do dia
+          </CardTitle>
+
+        </CardHeader>
+        <CardContent className="text-center text-gray-900 text-xl">
+          <p className="text-center text-amber-400 text-3xl mb-3">Misturas (2 opções)</p>
+          {mistura.map((item, index) => (
+            <div className="border-b-2 mb-3" key={index}> {item} </div>
+          ))}
+          <p className="text-center text-amber-400 text-3xl mb-3">Guarnições (3 opções)</p>
+          {guarnicao.map((item, index) => (
+            <div className="border-b-2 mb-3" key={index}> {item} </div>
+          ))}
+        </CardContent>
+
+      </Card>
+
+      <Link className="bg-amber-400 absolute right-2 bottom-4
+       text-white text-xl px-4 py-2 rounded-xl hover:bg-amber-400/90"
+        href={"/pedido"}
+      
+      >Montar Pedido
+      </Link>
+
+    </main>
   );
 }

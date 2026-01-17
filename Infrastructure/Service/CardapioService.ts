@@ -1,3 +1,4 @@
+'use server'
 import { Cardapio } from "@/Domain/Model/Cardapio"
 import { postgres } from "../Database/db"
 

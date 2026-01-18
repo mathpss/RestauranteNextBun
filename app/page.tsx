@@ -2,9 +2,9 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { CardapioServiceGet } from "@/Infrastructure/Service/CardapioService";
 import Link from "next/link";
 
-const result = await CardapioServiceGet()
 
 export default async function Home() {
+  const result = await CardapioServiceGet()
 
   const mistura = result.Mistura.split(',').map(x => x.trim())
   const guarnicao = result.Guarnicao.split(',').map(x => x.trim())

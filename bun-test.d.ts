@@ -1,0 +1,11 @@
+import "@testing-library/jest-dom";
+
+declare module "bun:test" {
+    interface Matchers<T> {
+        toBeInTheDocument(): T;
+        toBeDisabled(): T;
+        toHaveValue(value: string | number | string[]): T;
+        toHaveAttribute(x:string,y:string) : T
+        
+    }
+}

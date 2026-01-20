@@ -5,7 +5,6 @@ import Link from "next/link";
 
 export default async function Home() {
   const result = await CardapioServiceGet()
-
   const mistura = result.Mistura.split(',').map(x => x.trim())
   const guarnicao = result.Guarnicao.split(',').map(x => x.trim())
   return (
@@ -41,5 +40,5 @@ export default async function Home() {
       </Link>
 
     </main>
-  );
+  )
 }

@@ -22,6 +22,7 @@ type Pedido = {
     mistura?: CounterMistura,
     guarnicao?: CounterGuarnicao
     tamanho: 'p' | 'm' | 'g'
+    valor?:number
 }
 
 export default function Pedido() {
@@ -49,7 +50,7 @@ export default function Pedido() {
 
     useEffect(() => {
         listaPedidos.setPedidos(cart)
-    }, [cart])
+    }, [cart,listaPedidos])
 
     const counterPlusMistura = (index: number, item: string) => {
         const checker = counterMistura?.reduce((acc, curr) => acc + curr, 0)
@@ -121,7 +122,8 @@ export default function Pedido() {
         const pedido: Pedido = {
             mistura: misturaPedido,
             guarnicao: guarnicaoPedido,
-            tamanho: "p"
+            tamanho: "p",
+            valor:17
         }
 
         setCart(prev => [...prev, pedido])
@@ -136,7 +138,8 @@ export default function Pedido() {
         const pedido: Pedido = {
             mistura: misturaPedido,
             guarnicao: guarnicaoPedido,
-            tamanho: "m"
+            tamanho: "m",
+            valor:20
         }
 
         setCart(prev => [...prev, pedido])
@@ -151,7 +154,8 @@ export default function Pedido() {
         const pedido: Pedido = {
             mistura: misturaPedido,
             guarnicao: guarnicaoPedido,
-            tamanho: "g"
+            tamanho: "g",
+            valor:22
         }
 
         setCart(prev => [...prev, pedido])
@@ -162,7 +166,6 @@ export default function Pedido() {
 
     }
 
-    console.log("Lista de pedido na pagina /pedido", listaPedidos.pedidos)
     return (
         <main className='flex flex-col justify-center items-center 
         bg-[url(/images/prato.jpg)] 
@@ -203,6 +206,7 @@ export default function Pedido() {
                                 </p>
                             }
                             <p>Tamanho: {item.tamanho}</p>
+                            <p>Valor: {item.valor}</p>
                             <DropdownMenuSeparator />
                         </DropdownMenuLabel>
                     ))

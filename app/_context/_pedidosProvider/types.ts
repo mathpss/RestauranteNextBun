@@ -2,7 +2,8 @@
 export type Pedido = {
     mistura?: Record<string, number>,
     guarnicao?: Record<string, number>,
-    tamanho: 'p' | 'm' | 'g'
+    tamanho: 'p' | 'm' | 'g',
+    valor?:number
 };
 
 export interface IPedidoContext{

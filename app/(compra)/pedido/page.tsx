@@ -22,7 +22,7 @@ type Pedido = {
     mistura?: CounterMistura,
     guarnicao?: CounterGuarnicao
     tamanho: 'p' | 'm' | 'g'
-    valor?:number
+    valor?: number
 }
 
 export default function Pedido() {
@@ -39,9 +39,7 @@ export default function Pedido() {
     useEffect(() => {
         const getCardapio = async () => {
             const result = await CardapioServiceGet()
-            setCardapio(prev => {
-                return prev = result
-            })
+            setCardapio(result)
             setCounterMistura(Array(mistura?.length).fill(0))
             setCounterGuarnicao(Array(guarnicao?.length).fill(0))
         }
@@ -50,7 +48,7 @@ export default function Pedido() {
 
     useEffect(() => {
         listaPedidos.setPedidos(cart)
-    }, [cart,listaPedidos])
+    }, [cart, listaPedidos])
 
     const counterPlusMistura = (index: number, item: string) => {
         const checker = counterMistura?.reduce((acc, curr) => acc + curr, 0)
@@ -123,7 +121,7 @@ export default function Pedido() {
             mistura: misturaPedido,
             guarnicao: guarnicaoPedido,
             tamanho: "p",
-            valor:17
+            valor: 17
         }
 
         setCart(prev => [...prev, pedido])
@@ -131,6 +129,11 @@ export default function Pedido() {
         setGuarnicaoPedido(undefined)
         setCounterGuarnicao(Array(guarnicao?.length).fill(0))
         setCounterMistura(Array(mistura?.length).fill(0))
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        })
 
     }
 
@@ -139,7 +142,7 @@ export default function Pedido() {
             mistura: misturaPedido,
             guarnicao: guarnicaoPedido,
             tamanho: "m",
-            valor:20
+            valor: 20
         }
 
         setCart(prev => [...prev, pedido])
@@ -147,6 +150,11 @@ export default function Pedido() {
         setGuarnicaoPedido(undefined)
         setCounterGuarnicao(Array(guarnicao?.length).fill(0))
         setCounterMistura(Array(mistura?.length).fill(0))
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        })
 
     }
 
@@ -155,7 +163,7 @@ export default function Pedido() {
             mistura: misturaPedido,
             guarnicao: guarnicaoPedido,
             tamanho: "g",
-            valor:22
+            valor: 22
         }
 
         setCart(prev => [...prev, pedido])
@@ -163,6 +171,11 @@ export default function Pedido() {
         setGuarnicaoPedido(undefined)
         setCounterGuarnicao(Array(guarnicao?.length).fill(0))
         setCounterMistura(Array(mistura?.length).fill(0))
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        })
 
     }
 
@@ -179,7 +192,7 @@ export default function Pedido() {
                         <div className=" text-sm absolute bottom-0 right-3">{cart ? cart.length : 0}</div>
                     </div>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-transparent backdrop-blur-2xl">
+                <DropdownMenuContent className="bg-transparent backdrop-blur-2xl ">
                     {cart.map((item, index) => (
                         <DropdownMenuLabel key={index}>
                             <p className="text-amber-400">Pedido: {index + 1}</p>
@@ -259,13 +272,13 @@ export default function Pedido() {
             {
                 !!listaPedidos.pedidos.length &&
 
-            <Link className="bg-amber-400 fixed right-2 bottom-4
+                <Link className="bg-amber-400 fixed right-2 bottom-4
                    text-white text-xl px-4 py-2 rounded-xl hover:bg-amber-400/90"
-                href={"/pedido/confirmacao"}
+                    href={"/pedido/confirmacao"}
 
-            >
-                Montar Pedido
-            </Link>
+                >
+                    Montar Pedido
+                </Link>
             }
 
         </main>

@@ -6,7 +6,6 @@ import { FormEntrega } from "@/components/FormEntrega"
 import { FormRetirada } from "@/components/FormRetirada"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { useState } from "react"
 

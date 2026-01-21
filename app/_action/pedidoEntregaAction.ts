@@ -1,23 +1,30 @@
 'use server'
 
-import { CriarPedidoRetirada } from "@/Infrastructure/Service/PedidoRetiradaService"
+import { CriarPedidoEntraga } from "@/Infrastructure/Service/PedidoEntregaService";
 
- type Pedido = {
+type Pedido = {
     guarnicao: string[],
     mistura: string[],
     tamanho: 'p' | 'm' | 'g',
     valor: number
 };
 
- type RetiradaPedido = {
+type EntregaPedido = {
     nome: string,
     telefone: string,
-    pedidos: Pedido[]
+    pedidos: Pedido[],
+    nomeRua: string,
+    numeroRua: string,
+    bairro: string,
+    cidade:string
 }
-
-export async function pedidoRetiradaAction(form: FormData) {
-    const nomeForm = form.get("nome") as string
-    const telefoneForm = form.get("telefone") as string
+export async function pedidoEntregaAction(form: FormData) {
+    const nomeForm = form.get('nome') as string
+    const telefoneForm = form.get('telefone') as string
+    const cidadeForm = form.get('cidade') as string
+    const bairroForm = form.get('bairro') as string
+    const nomeRuaForm = form.get('nomeRua') as string
+    const numeroRuaForm = form.get('numeroRua') as string
     const jsonstringfy = form.get("pedidos") as string
 
     const objpedidosForm: Pedido[] = JSON.parse(jsonstringfy)
@@ -31,9 +38,13 @@ export async function pedidoRetiradaAction(form: FormData) {
             .flatMap(([item, qtd]) => (Array(Number(qtd)).fill(item))
             ));
 
-    const pedidoRetirada: RetiradaPedido = {
+    const pedidoEntrefa: EntregaPedido = {
         nome: nomeForm,
         telefone: telefoneForm,
+        cidade: cidadeForm,
+        bairro: bairroForm,
+        nomeRua: nomeRuaForm,
+        numeroRua: numeroRuaForm,
         pedidos: objpedidosForm.map((item, index) => item = {
             valor: item.valor,
             tamanho: item.tamanho,
@@ -42,5 +53,5 @@ export async function pedidoRetiradaAction(form: FormData) {
         })
     }
 
-    await CriarPedidoRetirada(pedidoRetirada)
+    await CriarPedidoEntraga(pedidoEntrefa)
 }

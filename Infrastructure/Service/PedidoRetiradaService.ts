@@ -12,8 +12,6 @@ export async function CriarPedidoRetirada(pedido:Omit <PedidoRetirada, 'Id'>) {
                 VALUES (${pedido.nome}, ${pedido.telefone}, now())
                 RETURNING *
             `
-            console.log("ID do Pedido", retiradaID.Id)
-            console.log("Saida Total do Pedido ", retiradaID)
 
             const pedidosFormatado = pedido.pedidos.map(item =>  ({
                 "PedidoRetiradaId": retiradaID.Id,
@@ -23,7 +21,6 @@ export async function CriarPedidoRetirada(pedido:Omit <PedidoRetirada, 'Id'>) {
                 "Guarnicao": sql.array(item.guarnicao, 'TEXT')
                 
             }))
-            console.log(pedidosFormatado)
             await sql`
                 INSERT INTO ${sql("Pedidos")} 
                 ${sql(pedidosFormatado, "Valor", "Tamanho", "Mistura", "Guarnicao", "PedidoRetiradaId" )}
@@ -36,6 +33,7 @@ export async function CriarPedidoRetirada(pedido:Omit <PedidoRetirada, 'Id'>) {
         reserved.release()
     }
 }
+
 
 export async function ListaPedidoRetirada(): Promise<PedidoRetirada[]> {
     const reserved = await postgres.reserve()

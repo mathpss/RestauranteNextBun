@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍽️ RestauranteNextBun
+Projeto pessoal de estudos desenvolvido com Next.js, Bun e TypeScript, com foco em boas práticas, organização de código e uso de uma stack moderna para aplicações web.  
 
-## Getting Started
+## 🚀 Visão Geral  
+**RestauranteNextBun** é um projeto de demonstração que visa reforçar o conhecimento em Next e utilizar o Bun e suas ferramentas nativas, o projeto aceita pedido do cliente e qual a modalidade, entrega ou retirada, e faz a inserção no banco de dados usando Bun.SQL:  
+- **Next.js** (App Router) Framework React full‑stack
+- **Bun** como runtime e gerenciador de pacotes
+- **Typescript** para segurança de tipos
 
-First, run the development server:
+## 📌 Pré-requisitos  
+Antes de começar, instale:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+✔️ Bun
+Recomenda-se ter a versão mais recente instalada seguindo as instruções em: [https://bun.sh](https://bun.sh)  
+
+✔️ Postgresql  
+
+
+## 🛠️ Instalação & Execução
+Clone o repositório:  
+```bun
+git clone https://github.com/mathpss/RestauranteNextBun.git
+cd RestauranteNextBun
+```
+Instale dependências com Bun:  
+```bun
+bun install
+```
+Inicie o servidor de desenvolvimento:  
+```bun
 bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚧 Roadmap  
+- Adição de meio de pagamento
+- encriptação na inserção dos dados no banco de dados
+- Integração com o WhatsApp  
+- Impressão do pedido  
+- Tela de administração de pedidos

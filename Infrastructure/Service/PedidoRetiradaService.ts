@@ -1,31 +1,28 @@
 'use server'
 import { PedidoRetirada } from '@/Domain/Model/PedidoRetirada'
-import { postgres } from '../Database/db'
+import { postgresSQL } from '../Database/db'
 
 export async function CriarPedidoRetirada(pedido:Omit <PedidoRetirada, 'Id'>) {
-    const reserved = await postgres.reserve()
+    const reserved = await postgresSQL.reserve()
 
     try {
-        await reserved.begin(async sql => {
-            const [retiradaID]:PedidoRetirada[] = await sql`
-                INSERT INTO ${sql("PedidoRetiradas")} ("Nome", "Telefone", "Date")
+            const [retiradaID]:PedidoRetirada[] = await reserved<PedidoRetirada[]>`
+                INSERT INTO ${reserved("PedidoRetiradas")} ("Nome", "Telefone", "Date")
                 VALUES (${pedido.nome}, ${pedido.telefone}, now())
                 RETURNING *
             `
-
             const pedidosFormatado = pedido.pedidos.map(item =>  ({
                 "PedidoRetiradaId": retiradaID.Id,
                 "Valor": item.valor,
                 "Tamanho": item.tamanho,
-                "Mistura": sql.array(item.mistura, 'TEXT'),
-                "Guarnicao": sql.array(item.guarnicao, 'TEXT')
-                
+                "Mistura": reserved.array(item.mistura),
+                "Guarnicao": reserved.array(item.guarnicao)
             }))
-            await sql`
-                INSERT INTO ${sql("Pedidos")} 
-                ${sql(pedidosFormatado, "Valor", "Tamanho", "Mistura", "Guarnicao", "PedidoRetiradaId" )}
+            await reserved`
+                INSERT INTO ${reserved("Pedidos")} 
+                ${reserved(pedidosFormatado, "Valor", "Tamanho", "Mistura", "Guarnicao", "PedidoRetiradaId" )}
             `
-        } )
+        
     } catch (error) {
         console.error("Erro na inserção, transação não convertida ", error)
     }
@@ -34,20 +31,16 @@ export async function CriarPedidoRetirada(pedido:Omit <PedidoRetirada, 'Id'>) {
     }
 }
 
-
 export async function ListaPedidoRetirada(): Promise<PedidoRetirada[]> {
-    const reserved = await postgres.reserve()
+    const reserved = await postgresSQL.reserve()
 
     try {
-        const result: PedidoRetirada[] = await reserved.begin(async sql => {
-            return await sql`SELECT 
+        const result: PedidoRetirada[] = await reserved<PedidoRetirada[]>`SELECT 
                             p.*, 
-                            pr.* FROM ${sql("PedidoRetiradas")} pr
-                            JOIN  ${sql("Pedidos")} p
+                            pr.* FROM ${reserved("PedidoRetiradas")} pr
+                            JOIN  ${reserved("Pedidos")} p
                             ON p."PedidoRetiradaId" = pr."Id"
                 `
-        })
-
         return result
     }
     finally {

@@ -1,5 +1,4 @@
 'use server'
-import { SQL } from "bun"
+import postgres from 'postgres'
 
-
-export const postgres = new SQL(Bun.env.CONNECTION_STRING as string, {idleTimeout: 30} )
+export const postgresSQL =  postgres(process.env.CONNECTION_STRING as string, {idle_timeout:30} )

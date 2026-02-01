@@ -261,21 +261,17 @@ export default function Pedido() {
                     </div>
                     ))}
                 </CardContent>
-
             </Card>
 
             <ChosenPedido pushPedidoSizeP={pushPedidoSizeP}
                 pushPedidoSizeM={pushPedidoSizeM}
                 pushPedidoSizeG={pushPedidoSizeG}
             />
-
             {
                 !!listaPedidos.pedidos.length &&
-
                 <Link className="bg-amber-400 fixed right-2 bottom-4
                    text-white text-xl px-4 py-2 rounded-xl hover:bg-amber-400/90"
                     href={"/pedido/confirmacao"}
-
                 >
                     Montar Pedido
                 </Link>

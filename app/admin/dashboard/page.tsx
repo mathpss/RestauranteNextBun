@@ -46,17 +46,14 @@ export default function AdminLogin() {
 
                         </input>
                     </div>
-
                     <button className="bg-[#21C45D]/10 hover:bg-[#21C45D]/20 py-2 px-4 rounded-full 
                     flex items-center text-[#21C45D] gap-2 cursor-pointer
                     ">
                         <span className="h-2 w-2 bg-[#21C45D] rounded-full " />
                         Aberto
                     </button>
-
                 </header>
                 <main className="w-full p-6 flex flex-col gap-3">
-                    {/*Essa parte do código é o Dashboard, depois mostrar a vizualização de acordo com o botão selecionado */}
                     {!!isDashboard &&
                         <>
                             <CardResumeAdmin />
@@ -64,21 +61,14 @@ export default function AdminLogin() {
 
                         </>
                     }
-
-
                     {
                         !!isCardapio && <CardapioTableAdmin />
                     }
                     {
                         !!isCozinha && <ModoCozinhaAdmin />
                     }
-
-
                 </main>
-
             </div>
-
         </div>
-
     </>)
 }

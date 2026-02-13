@@ -1,23 +1,9 @@
 'use server'
 
+import { PedidoEntrega } from "@/Domain/Model/PedidoEntrega";
+import { PedidoModel } from "@/Domain/Model/PedidoModel";
 import { CriarPedidoEntraga } from "@/Infrastructure/Service/PedidoEntregaService";
 
-type Pedido = {
-    guarnicao: string[],
-    mistura: string[],
-    tamanho: 'p' | 'm' | 'g',
-    valor: number
-};
-
-type EntregaPedido = {
-    nome: string,
-    telefone: string,
-    pedidos: Pedido[],
-    nomeRua: string,
-    numeroRua: string,
-    bairro: string,
-    cidade:string
-}
 export async function pedidoEntregaAction(form: FormData) {
     const nomeForm = form.get('nome') as string
     const telefoneForm = form.get('telefone') as string
@@ -27,29 +13,30 @@ export async function pedidoEntregaAction(form: FormData) {
     const numeroRuaForm = form.get('numeroRua') as string
     const jsonstringfy = form.get("pedidos") as string
 
-    const objpedidosForm: Pedido[] = JSON.parse(jsonstringfy)
+    const objpedidosForm: Omit<PedidoModel[], "Status"> = JSON.parse(jsonstringfy)
 
     const misturaArray = objpedidosForm.map(x =>
-        Object.entries(x.mistura)
+        Object.entries(x.Mistura)
             .flatMap(([item, qtd]) => (Array(Number(qtd)).fill(item))
             ))
     const guarnicaoArray = objpedidosForm.map(x =>
-        Object.entries(x.guarnicao)
+        Object.entries(x.Guarnicao)
             .flatMap(([item, qtd]) => (Array(Number(qtd)).fill(item))
             ));
 
-    const pedidoEntrefa: EntregaPedido = {
-        nome: nomeForm,
-        telefone: telefoneForm,
-        cidade: cidadeForm,
-        bairro: bairroForm,
-        nomeRua: nomeRuaForm,
-        numeroRua: numeroRuaForm,
+    const pedidoEntrefa: Omit<PedidoEntrega, "Id" | "Date"> = {
+        Nome: nomeForm,
+        Telefone: telefoneForm,
+        Cidade: cidadeForm,
+        Bairro: bairroForm,
+        NomeRua: nomeRuaForm,
+        NumeroRua: numeroRuaForm,
         pedidos: objpedidosForm.map((item, index) => item = {
-            valor: item.valor,
-            tamanho: item.tamanho,
-            mistura: misturaArray[index],
-            guarnicao: guarnicaoArray[index],
+            Valor: item.Valor,
+            Tamanho: item.Tamanho,
+            Status: "Novos",
+            Mistura: misturaArray[index],
+            Guarnicao: guarnicaoArray[index],
         })
     }
 

@@ -19,8 +19,7 @@ export async function CardapioServiceGet(): Promise<Cardapio> {
 export async function CardapioServiceUpdate(cardapio: Cardapio) {
     const reserved = await postgresSQL.reserve()
     try {
-        const result = await reserved`UPDATE ${reserved("Cardapios")} SET ${reserved(cardapio)} WHERE "Id" = 1`
-        console.log("Saída do DB state",result)
+        await reserved`UPDATE ${reserved("Cardapios")} SET ${reserved(cardapio)} WHERE "Id" = 1`
     } catch (error) {
         console.error("Ops houve um erro: ", error)
     }

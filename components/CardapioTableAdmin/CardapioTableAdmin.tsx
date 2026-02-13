@@ -8,7 +8,6 @@ export function CardapioTableAdmin() {
     const [cardapio, setCardapio] = useState<Cardapio | null>(null)
     const mistura = cardapio?.Mistura.split(',').map(x => x.trim())
     const guarnicao = cardapio?.Guarnicao.split(',').map(x => x.trim())
-    const [copiaCardapio, setCopiaCardapio] = useState<Cardapio | null>(null)
     const [isEditMistura, setIsEditMistura] = useState<boolean[]>([])
     const [isEditGuarnicao, setIsEditGuarnicao] = useState<boolean[]>([])
 
@@ -16,7 +15,6 @@ export function CardapioTableAdmin() {
         const getCardapio = async () => {
             const result = await CardapioServiceGet()
             setCardapio(result)
-            setCopiaCardapio(result)
             setIsEditMistura(Array(mistura?.length).fill(true))
             setIsEditGuarnicao(Array(guarnicao?.length).fill(true))
         }

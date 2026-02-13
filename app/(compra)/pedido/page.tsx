@@ -19,10 +19,10 @@ type CounterGuarnicao = {
 }
 
 type Pedido = {
-    mistura?: CounterMistura,
-    guarnicao?: CounterGuarnicao
-    tamanho: 'p' | 'm' | 'g'
-    valor?: number
+    Mistura?: CounterMistura,
+    Guarnicao?: CounterGuarnicao
+    Tamanho: 'p' | 'm' | 'g'
+    Valor?: number
 }
 
 export default function Pedido() {
@@ -118,10 +118,10 @@ export default function Pedido() {
 
     const pushPedidoSizeP = () => {
         const pedido: Pedido = {
-            mistura: misturaPedido,
-            guarnicao: guarnicaoPedido,
-            tamanho: "p",
-            valor: 17
+            Mistura: misturaPedido,
+            Guarnicao: guarnicaoPedido,
+            Tamanho: "p",
+            Valor: 17
         }
 
         setCart(prev => [...prev, pedido])
@@ -139,10 +139,10 @@ export default function Pedido() {
 
     const pushPedidoSizeM = () => {
         const pedido: Pedido = {
-            mistura: misturaPedido,
-            guarnicao: guarnicaoPedido,
-            tamanho: "m",
-            valor: 20
+            Mistura: misturaPedido,
+            Guarnicao: guarnicaoPedido,
+            Tamanho: "m",
+            Valor: 20
         }
 
         setCart(prev => [...prev, pedido])
@@ -160,10 +160,10 @@ export default function Pedido() {
 
     const pushPedidoSizeG = () => {
         const pedido: Pedido = {
-            mistura: misturaPedido,
-            guarnicao: guarnicaoPedido,
-            tamanho: "g",
-            valor: 22
+            Mistura: misturaPedido,
+            Guarnicao: guarnicaoPedido,
+            Tamanho: "g",
+            Valor: 22
         }
 
         setCart(prev => [...prev, pedido])
@@ -196,8 +196,19 @@ export default function Pedido() {
                     {cart.map((item, index) => (
                         <DropdownMenuLabel key={index}>
                             <p className="text-amber-400">Pedido: {index + 1}</p>
-                            {!!item.mistura &&
-                                <p>Misturas: {Object.entries(item.mistura)
+                            {!!item.Mistura &&
+                                <div>Misturas: {Object.entries(item.Mistura)
+                                    .map(([chave, valor]) => (
+                                        <ul key={chave}>
+                                            <li>
+                                                {chave}: {valor}
+                                            </li>
+                                        </ul>
+                                    ))}
+                                </div>
+                            }
+                            {!!item.Guarnicao &&
+                                <p>Guarnições: {Object.entries(item.Guarnicao)
                                     .map(([chave, valor]) => (
                                         <ul key={chave}>
                                             <li>
@@ -207,19 +218,8 @@ export default function Pedido() {
                                     ))}
                                 </p>
                             }
-                            {!!item.guarnicao &&
-                                <p>Guarnições: {Object.entries(item.guarnicao)
-                                    .map(([chave, valor]) => (
-                                        <ul key={chave}>
-                                            <li>
-                                                {chave}: {valor}
-                                            </li>
-                                        </ul>
-                                    ))}
-                                </p>
-                            }
-                            <p>Tamanho: {item.tamanho}</p>
-                            <p>Valor: {item.valor}</p>
+                            <p>Tamanho: {item.Tamanho}</p>
+                            <p>Valor: {item.Valor}</p>
                             <DropdownMenuSeparator />
                         </DropdownMenuLabel>
                     ))

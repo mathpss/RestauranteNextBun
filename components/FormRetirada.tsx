@@ -4,10 +4,10 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 
 type Pedido = {
-    mistura?: Record<string, number>,
-    guarnicao?: Record<string, number>,
-    tamanho: 'p' | 'm' | 'g'
-    valor?:number
+    Mistura?: Record<string, number>,
+    Guarnicao?: Record<string, number>,
+    Tamanho: 'p' | 'm' | 'g'
+    Valor?:number
 }
 
 type FormRetiradaProps = {

@@ -20,6 +20,7 @@ export default function Confirmacao() {
     function handleEntrega() {
         setIsRetirada(false)
     }
+    
     return (
         <main className='flex justify-center items-center 
             bg-[url(/images/prato.jpg)] 
@@ -59,7 +60,8 @@ export default function Confirmacao() {
                             <FormRetirada action={pedidoRetiradaAction}
                                 pedidos={listaPedido.pedidos} />
                             :
-                            <FormEntrega action={pedidoEntregaAction}
+                            
+                             <FormEntrega action={pedidoEntregaAction}
                                 pedidos={listaPedido.pedidos} />
                     }
 

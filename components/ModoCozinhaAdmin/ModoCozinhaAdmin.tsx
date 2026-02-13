@@ -1,5 +1,93 @@
 'use client'
+
+import { PedidoEntrega } from "@/Domain/Model/PedidoEntrega"
+import { PedidoRetirada } from "@/Domain/Model/PedidoRetirada"
+import { PedidoEntregaEmPreparoHoje, PedidoEntregaNovosHoje, PedidoEntregaProntosHoje, UpdateEntregaService } from "@/Infrastructure/Service/PedidoEntregaService"
+import { PedidosRetiradasEmPreparoHoje, PedidosRetiradasNovosHoje, PedidosRetiradasProntosHoje, UpdateRetiradaService } from "@/Infrastructure/Service/PedidoRetiradaService"
+import { useEffect, useState } from "react"
+import { CardsModoCozinhaNovos } from "../CardsModoCozinhaNovos/CardsModoCozinhaNovos"
+import { CardsModoCozinhaPreparo } from "../CardsModoCozinhaPreparo/CardsModoCozinhaPreparo"
+import { CardsModoCozinhaProntos } from "../CardsModoCozinhaProntos/CardsModoCozinhaProntos"
+
 export function ModoCozinhaAdmin() {
+
+    const [entregaNovosHoje, setEntregaNovosHoje] = useState<PedidoEntrega[] | null>(null)
+    const [entregaEmPreparoHoje, setEntregaEmPreparoHoje] = useState<PedidoEntrega[] | null>(null)
+    const [entregaProntosHoje, setEntregaProntosHoje] = useState<PedidoEntrega[] | null>(null)
+
+    const [retiradasNovosHoje, setRetiradasNovosHoje] = useState<PedidoRetirada[] | null>(null)
+    const [retiradasEmPreparoHoje, setRetiradasEmPreparoHoje] = useState<PedidoRetirada[] | null>(null)
+    const [retiradasProntosHoje, setRetiradasProntosHoje] = useState<PedidoRetirada[] | null>(null)
+
+    useEffect(() => {
+        async function getPedidosHoje() {
+            setEntregaNovosHoje(await PedidoEntregaNovosHoje())
+            setEntregaEmPreparoHoje(await PedidoEntregaEmPreparoHoje())
+            setEntregaProntosHoje(await PedidoEntregaProntosHoje())
+
+            setRetiradasNovosHoje(await PedidosRetiradasNovosHoje())
+            setRetiradasEmPreparoHoje(await PedidosRetiradasEmPreparoHoje())
+            setRetiradasProntosHoje(await PedidosRetiradasProntosHoje())
+        }
+        getPedidosHoje()
+
+    }, [])
+
+    function handleUpdateRetirada(pedidoRetirada: PedidoRetirada) {
+
+        const copiaRetirada: PedidoRetirada = {
+            ...pedidoRetirada,
+            pedidos: pedidoRetirada.pedidos.map(pedidos => ({ ...pedidos, Status: "Em Preparo" }))
+        }
+
+        async function updateRetiradaAsync() {
+            await UpdateRetiradaService(copiaRetirada)
+            setRetiradasNovosHoje(await PedidosRetiradasNovosHoje())
+
+        }
+        updateRetiradaAsync()
+    }
+
+    function handleUpdateEntrega(pedidoEntrega: PedidoEntrega) {
+
+        const copiaEntrega: PedidoEntrega = {
+            ...pedidoEntrega,
+            pedidos: pedidoEntrega.pedidos.map(pedidos => ({ ...pedidos, Status: "Em Preparo" }))
+        }
+
+        async function updateEntregaAsync() {
+            await UpdateEntregaService(copiaEntrega)
+            setEntregaNovosHoje(await PedidoEntregaNovosHoje())
+
+        }
+        updateEntregaAsync()
+    }
+
+    function handleUpdateEmPreparoRetirada(pedidoRetirada: PedidoRetirada) {
+
+        const copiaRetirada: PedidoRetirada = {
+            ...pedidoRetirada,
+            pedidos: pedidoRetirada.pedidos.map(pedidos => ({ ...pedidos, Status: "Prontos" }))
+        }
+        async function updateRetiradaAsync() {
+            await UpdateRetiradaService(copiaRetirada)
+            setRetiradasEmPreparoHoje(await PedidosRetiradasEmPreparoHoje())
+        }
+        updateRetiradaAsync()
+
+    }
+
+    function handleUpdateEmPreparoEntrega(pedidoEntrega: PedidoEntrega) {
+        const copiaEntrega: PedidoEntrega = {
+            ...pedidoEntrega,
+            pedidos: pedidoEntrega.pedidos.map(pedidos => ({ ...pedidos, Status: "Prontos" }))
+        }
+        async function updateEntregaAsync() {
+            await UpdateEntregaService(copiaEntrega)
+            setEntregaEmPreparoHoje(await PedidoEntregaEmPreparoHoje())
+        }
+        updateEntregaAsync()
+    }
 
     return (
         <div className="w-full h-full grid grid-cols-3 gap-3">
@@ -10,31 +98,31 @@ export function ModoCozinhaAdmin() {
                     <div className="flex items-center gap-3">
                         <span className="h-2 w-2 bg-[#3C8CF6] rounded-full " />
                         <p>
-                            Prontos
+                            Novos
                         </p>
 
                     </div>
 
                     <p className="bg-[#3C8CF6]/10 rounded-full h-10 w-10 text-xl justify-center items-center flex">
-                        2
+                        {!!retiradasNovosHoje && !!entregaNovosHoje &&
+                            retiradasNovosHoje?.length + entregaNovosHoje?.length
+                        }
                     </p>
 
                 </div>
                 <div className="flex flex-col p-3 gap-3 justify-center">
 
-                    <div className="flex flex-col p-3 border border-[#3C8CF6]/20 rounded-3xl">
-                        <div className="flex items-center justify-between">
-                            <p className="text-[#0F1729] text-3xl font-medium">#1049</p>
-                            <p className="text-[#65758B] text-xl">2 min</p>
-                        </div>
-                        <div>
-                            2x carne frita
-                            3x Ovo Frito
-                        </div>
-                        <button>
+                    {entregaNovosHoje?.map((item, index) => (
 
-                        </button>
-                    </div>
+                        <CardsModoCozinhaNovos key={index} retiradaEntrega={item} handleUpdate={() => handleUpdateEntrega(item)} />
+
+                    ))}
+
+                    {retiradasNovosHoje?.map((item, index) => (
+
+                        <CardsModoCozinhaNovos key={index} retiradaEntrega={item} handleUpdate={() => handleUpdateRetirada(item)} />
+
+                    ))}
                 </div>
 
             </div>
@@ -52,25 +140,21 @@ export function ModoCozinhaAdmin() {
                     </div>
 
                     <p className="bg-[#FACC14]/10 rounded-full h-10 w-10 text-xl justify-center items-center flex">
-                        8
+                        {!!retiradasEmPreparoHoje && !!entregaEmPreparoHoje &&
+                            retiradasEmPreparoHoje?.length + entregaEmPreparoHoje?.length
+                        }
                     </p>
 
                 </div>
                 <div className="flex flex-col p-3 gap-3 justify-center">
+                    {entregaEmPreparoHoje?.map((item, index) => (
+                        <CardsModoCozinhaPreparo key={index} retiradaEntrega={item} handleUpdate={() => handleUpdateEmPreparoEntrega(item)} />
+                    ))}
 
-                    <div className="flex flex-col p-3 border border-[#FACC14]/20 rounded-3xl">
-                        <div className="flex items-center justify-between">
-                            <p className="text-[#0F1729] text-3xl font-medium">#1042</p>
-                            <p className="text-[#65758B] text-xl">8 min</p>
-                        </div>
-                        <div>
-                            2x carne frita
-                            3x Ovo Frito
-                        </div>
-                        <button>
+                    {retiradasEmPreparoHoje?.map((item, index) => (
+                        <CardsModoCozinhaPreparo key={index} retiradaEntrega={item} handleUpdate={() => handleUpdateEmPreparoRetirada(item)} />
+                    ))}
 
-                        </button>
-                    </div>
                 </div>
 
             </div>
@@ -88,25 +172,22 @@ export function ModoCozinhaAdmin() {
                     </div>
 
                     <p className="bg-[#21C45D]/10 rounded-full h-10 w-10 text-xl justify-center items-center flex">
-                        2
+                        {!!retiradasProntosHoje && !!entregaProntosHoje &&
+                            entregaProntosHoje?.length + retiradasProntosHoje?.length
+                        }
                     </p>
 
                 </div>
                 <div className="flex flex-col p-3 gap-3 justify-center">
 
-                    <div className="flex flex-col p-3 border border-[#21C45D]/20 rounded-3xl">
-                        <div className="flex items-center justify-between">
-                            <p className="text-[#0F1729] text-3xl font-medium">#1040</p>
-                            <p className="text-[#65758B] text-xl">28 min</p>
-                        </div>
-                        <div>
-                            2x carne frita
-                            3x Ovo Frito
-                        </div>
-                        <button>
+                    {entregaProntosHoje?.map(item => (
+                        <CardsModoCozinhaProntos key={item.Id} retiradaEntrega={item} />
+                    ))}
 
-                        </button>
-                    </div>
+                    {retiradasProntosHoje?.map(item => (
+                        <CardsModoCozinhaProntos key={item.Id} retiradaEntrega={item} />
+                    ))}
+
                 </div>
 
             </div>

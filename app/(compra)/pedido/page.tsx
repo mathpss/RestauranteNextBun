@@ -208,7 +208,7 @@ export default function Pedido() {
                                 </div>
                             }
                             {!!item.Guarnicao &&
-                                <p>Guarnições: {Object.entries(item.Guarnicao)
+                                <div>Guarnições: {Object.entries(item.Guarnicao)
                                     .map(([chave, valor]) => (
                                         <ul key={chave}>
                                             <li>
@@ -216,14 +216,13 @@ export default function Pedido() {
                                             </li>
                                         </ul>
                                     ))}
-                                </p>
+                                </div>
                             }
                             <p>Tamanho: {item.Tamanho}</p>
                             <p>Valor: {item.Valor}</p>
                             <DropdownMenuSeparator />
                         </DropdownMenuLabel>
-                    ))
-                    }
+                    ))}
                 </DropdownMenuContent>
             </DropdownMenu>
 

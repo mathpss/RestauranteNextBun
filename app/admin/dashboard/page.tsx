@@ -34,9 +34,9 @@ export default function AdminLogin() {
                 handleIsCardapio={handleIsCardapio}
                 handleIsCozinha={handleIsCozinha}
             />
-            <div className="w-full h-dvh">
+            <div className="w-full h-dvh overflow-auto">
                 <header className="h-16 w-full items-center flex justify-between px-6 
-                border-b-2 sticky
+                border-b-2 sticky top-0 bg-white
                 ">
                     <div className="flex gap-3 h-10 w-md rounded-xl border-2 items-center px-3
                     bg-[#F8FAFC]

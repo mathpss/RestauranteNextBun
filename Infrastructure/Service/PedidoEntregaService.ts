@@ -56,13 +56,7 @@ export async function ListaPedidoEntregaHoje() {
     try {
         const result: PedidoEntrega[] = await reserved<PedidoEntrega[]>`
             SELECT
-            pe."Id",
-            pe."Nome",
-            pe."Telefone",
-            pe."NomeRua",
-            pe."NumeroRua",
-            pe."Bairro",
-            pe."Cidade",
+            pe.*,
             json_agg(p.*) as "pedidos"
             FROM ${reserved("PedidoEntregas")} pe
             JOIN ${reserved("Pedidos")} p
@@ -75,7 +69,8 @@ export async function ListaPedidoEntregaHoje() {
             pe."NomeRua", 
             pe."NumeroRua", 
             pe."Bairro", 
-            pe."Cidade";
+            pe."Cidade",
+            pe."Date";
             `
         return result
     }
@@ -181,7 +176,7 @@ export async function UpdateEntregaService(entrega: PedidoEntrega) {
         Telefone: entrega.Telefone
     }
     try {
-        await reserved`UPDATE "PedidoRetiradas" SET ${reserved(formattedRetirada)} WHERE "Id" = ${entrega.Id}`
+        await reserved`UPDATE "PedidoEntregas" SET ${reserved(formattedRetirada)} WHERE "Id" = ${entrega.Id}`
 
         await reserved`INSERT INTO "Pedidos" 
             ${reserved(entrega.pedidos, "Id", "Valor", "Tamanho", "Mistura", "Guarnicao", "Status", "PedidoRetiradaId")}

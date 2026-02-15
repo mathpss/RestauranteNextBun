@@ -1,5 +1,6 @@
 import { PedidoEntrega } from "@/Domain/Model/PedidoEntrega"
 import { PedidoRetirada } from "@/Domain/Model/PedidoRetirada"
+import { ChevronRight } from "lucide-react"
 
 
 interface ICardsModoCozinhaPreparoProps {
@@ -47,11 +48,11 @@ export function CardsModoCozinhaPreparo({ retiradaEntrega, handleUpdate }: ICard
 
                 </div>
             ))}
-            <button className="border border-[#21C45D]/20 bg-[#21C45D]/10 text-lg
-            text-[#21C45D] font-medium cursor-pointer px-8 py-4 rounded-3xl"
+            <button className="border border-[#21C45D]/20 bg-[#21C45D]/10 text-lg flex gap-3 items-center justify-center
+            text-[#21C45D] font-medium cursor-pointer px-8 py-4 rounded-3xl mt-2"
                 onClick={handleUpdate}
             >
-                Marcar Pronto
+                Marcar Pronto <ChevronRight size={20} />
             </button>
         </div>
     )

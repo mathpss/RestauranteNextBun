@@ -2,7 +2,6 @@
 
 import { Minus, Plus } from "lucide-react"
 import { Button } from "./ui/button"
-import { Input } from "./ui/input"
 
 type CounterPedidoProps = {
     count: number,
@@ -13,14 +12,14 @@ type CounterPedidoProps = {
 export function CounterPedido({ count, counterPlus, counterLess }: CounterPedidoProps) {
     
     return (
-        <div className="flex">
+        <div className="flex items-center justify-center mb-1">
             <Button
                 onClick={counterLess}
                 className="bg-amber-400 text-white rounded-full h-10 w-10"
             >
                 <Minus />
             </Button>
-            <Input disabled className="h-10 w-10 text-center text-black" value={count} />
+            <p className="h-10 w-10 text-center leading-10 text-black"  > {count}</p>
             <Button
                 onClick={counterPlus}
                 className="bg-amber-400 text-white rounded-full h-10 w-10"

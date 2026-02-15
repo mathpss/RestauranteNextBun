@@ -43,6 +43,7 @@ export function ModoCozinhaAdmin() {
         async function updateRetiradaAsync() {
             await UpdateRetiradaService(copiaRetirada)
             setRetiradasNovosHoje(await PedidosRetiradasNovosHoje())
+            setRetiradasEmPreparoHoje(await PedidosRetiradasEmPreparoHoje())
 
         }
         updateRetiradaAsync()
@@ -58,6 +59,7 @@ export function ModoCozinhaAdmin() {
         async function updateEntregaAsync() {
             await UpdateEntregaService(copiaEntrega)
             setEntregaNovosHoje(await PedidoEntregaNovosHoje())
+            setEntregaEmPreparoHoje(await PedidoEntregaEmPreparoHoje())
 
         }
         updateEntregaAsync()
@@ -72,6 +74,7 @@ export function ModoCozinhaAdmin() {
         async function updateRetiradaAsync() {
             await UpdateRetiradaService(copiaRetirada)
             setRetiradasEmPreparoHoje(await PedidosRetiradasEmPreparoHoje())
+            setRetiradasProntosHoje(await PedidosRetiradasProntosHoje())
         }
         updateRetiradaAsync()
 
@@ -85,6 +88,7 @@ export function ModoCozinhaAdmin() {
         async function updateEntregaAsync() {
             await UpdateEntregaService(copiaEntrega)
             setEntregaEmPreparoHoje(await PedidoEntregaEmPreparoHoje())
+            setEntregaProntosHoje(await PedidoEntregaProntosHoje())
         }
         updateEntregaAsync()
     }

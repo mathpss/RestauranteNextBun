@@ -2,8 +2,8 @@
 import { pedidoEntregaAction } from "@/app/_action/pedidoEntregaAction"
 import { pedidoRetiradaAction } from "@/app/_action/pedidoRetiradaAction"
 import { usePedido } from "@/app/_context/_pedidosProvider/usePedidos"
-import { FormEntrega } from "@/components/FormEntrega"
-import { FormRetirada } from "@/components/FormRetirada"
+import { FormEntrega } from "@/components/FormEntrega/FormEntrega"
+import { FormRetirada } from "@/components/FormRetirada/FormRetirada"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
@@ -57,11 +57,11 @@ export default function Confirmacao() {
                 <CardContent className=" text-xl">
                     {
                         isRetirada ?
-                            <FormRetirada action={pedidoRetiradaAction}
+                            <FormRetirada 
                                 pedidos={listaPedido.pedidos} />
                             :
                             
-                             <FormEntrega action={pedidoEntregaAction}
+                             <FormEntrega 
                                 pedidos={listaPedido.pedidos} />
                     }
 

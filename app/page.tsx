@@ -1,7 +1,7 @@
+export const dynamic = 'force-dynamic';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { CardapioServiceGet } from "@/Infrastructure/Service/CardapioService";
 import Link from "next/link";
-
 
 export default async function Home() {
   const result = await CardapioServiceGet()

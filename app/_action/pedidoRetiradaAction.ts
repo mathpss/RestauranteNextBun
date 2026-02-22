@@ -1,18 +1,32 @@
 'use server'
-
 import { PedidoModel } from "@/Domain/Model/PedidoModel"
 import { PedidoRetirada } from "@/Domain/Model/PedidoRetirada"
 import { CriarPedidoRetirada } from "@/Infrastructure/Service/PedidoRetiradaService"
+import * as z from "zod";
 
+const User = z.object({
+    nome: z.string().min(3, 'Insira seu nome, deve ter no minimo 3 dígitos'),
+    telefone: z.string().min(11, "Por favor insira os 11 números do telefone"),
+    pedidos: z.string()
+})
 
-export async function pedidoRetiradaAction(form: FormData) {
+export async function pedidoRetiradaAction(_:unknown , form: FormData) {
+
+    const rawData = Object.fromEntries(form.entries())
+    const validatedFields = User.safeParse(rawData)
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: "Dados inválidos. Verifique os campos."
+        }
+    }
+
     const nomeForm = form.get("nome") as string
     const telefoneForm = form.get("telefone") as string
     const jsonstringfy = form.get("pedidos") as string
 
     const objpedidosForm: Omit<PedidoModel[], "Status"> = JSON.parse(jsonstringfy)
-
-    console.log(objpedidosForm)
     
     const misturaArray = objpedidosForm.map(x =>
         Object.entries(x.Mistura)

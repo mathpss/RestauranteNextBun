@@ -3,8 +3,30 @@
 import { PedidoEntrega } from "@/Domain/Model/PedidoEntrega";
 import { PedidoModel } from "@/Domain/Model/PedidoModel";
 import { CriarPedidoEntraga } from "@/Infrastructure/Service/PedidoEntregaService";
+import * as z from "zod";
 
-export async function pedidoEntregaAction(form: FormData) {
+const User = z.object({
+    nome: z.string().min(3, 'Insira seu nome, deve ter no minimo 3 dígitos'),
+    telefone: z.string().min(11, "Por favor insira os 11 números do telefone"),
+    cidade: z.string().min(3, 'Insira uma cidade, deve ter no minimo 3 dígitos'),
+    bairro: z.string().min(3, 'Insira um bairro, deve ter no minimo 3 dígitos'),
+    nomeRua: z.string().min(3, 'Insira um nome de rua, deve ter no minimo 3 dígitos'),
+    numeroRua: z.string().min(1, 'Insira o número da casa'),
+    pedidos: z.string()
+})
+
+export async function pedidoEntregaAction(_:unknown, form: FormData) {
+
+    const rawData = Object.fromEntries(form.entries())
+    const validatedFields = User.safeParse(rawData)
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: "Dados inválidos. Verifique os campos."
+        }
+    }
+
     const nomeForm = form.get('nome') as string
     const telefoneForm = form.get('telefone') as string
     const cidadeForm = form.get('cidade') as string
